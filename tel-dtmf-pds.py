@@ -5,7 +5,7 @@ from scipy.fft import fft, fftfreq
 from scipy.io.wavfile import write
 
 #%%
-# Frequências DTMF
+# Frequências DTMF usando par chave valor
 dtmf_freqs = {
     '1': (697, 1209),
     '2': (697, 1336),
@@ -22,6 +22,7 @@ dtmf_freqs = {
 }
 
 # Função para gerar o sinal DTMF de um dígito
+#que usa o conceito de superposição
 def gerar_tom_dtmf(digit, duration=0.5, sample_rate=8000):
     if digit not in dtmf_freqs:
         raise ValueError("Dígito inválido para DTMF")
@@ -46,6 +47,7 @@ plt.ylabel("Amplitude")
 plt.show()
 
 #%%
+#Função para plotar as frequências atráves da fft
 def plot_fft(signal, sample_rate):
     N = len(signal)
     yf = fft(signal)
@@ -61,21 +63,35 @@ def plot_fft(signal, sample_rate):
     plt.xlabel("Frequência (Hz)")
     plt.ylabel("Amplitude")
     plt.show()
-    
+
+#Plotando as frequências encontradas    
 plot_fft(tone, sample_rate)
 
 #%%
+def detecta_digito_dtmf(signal, sample_rate):
+    N = len(signal)
+    yf = fft(signal)
+    xf = fftfreq(N, 1 / sample_rate)
 
+    # Filtrar frequências positivas
+    idxs = np.where(xf > 0)
+    xf = xf[idxs]
+    yf = np.abs(yf[idxs])
 
+    # Identificar as duas frequências mais fortes
+    peaks = np.argsort(yf)[-2:]
+    detected_freqs = xf[peaks]
+    detected_freqs.sort()
 
+    # Mapeamento das frequências para o dígito DTMF
+    for digit, (f1, f2) in dtmf_freqs.items():
+        if np.isclose(detected_freqs[0], f1, atol=10) and np.isclose(detected_freqs[1], f2, atol=10):
+            return digit
+    return None
 
-
-
-
-
-
-
-
+# Testando a detecção do dígito
+detected_digit = detecta_digito_dtmf(tone, sample_rate)
+print(f"Dígito detectado: {detected_digit}")
 
 
 
