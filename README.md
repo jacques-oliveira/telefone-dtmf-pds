@@ -1,6 +1,10 @@
-# Geração do som DTMF para telefone usando Transformada de Fourier
+# Transformada de Fourier
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/6d5c66ef-b346-4df4-9e33-dadadabd0de2" height="140"/>
+</p>
 
 ## Contextualização:
+
 Quando você liga para uma empresa com atendimento automático, é comum ouvir a
 frase: "Para falar com o setor X, disque 3". Isso acontece porque o sistema reconhece
 o que você digita no telefone pela frequência sonora gerada pelos números. 
@@ -11,4 +15,14 @@ Multi Frequency, traduzido como "dois tons, múltiplas frequências". Assim, ao 
 um número no seu dispositivo durante o atendimento, o sistema capta a frequência sonora correspondente
 à tecla e interpreta o comando que deve ser executado (Fonte:Nvoip).
 
-![Screenshot_20241103_164723](https://github.com/user-attachments/assets/e9b9649a-c5bd-4781-a39b-55103cceadb2)
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/e9b9649a-c5bd-4781-a39b-55103cceadb2" alt="Screenshot de DTMF">
+</p>
+
+
+# Objetivo:
+
+Desenvolver um programa em Python que simule um telefone, gere o som
+DTMF correspondente a um número de telefone, aplique a FFT no sinal para identificar
+as frequências dominantes e, a partir da análise da FFT, decodifique e identifique o
+dígito.
