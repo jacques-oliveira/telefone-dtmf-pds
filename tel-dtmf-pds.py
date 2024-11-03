@@ -44,3 +44,38 @@ plt.title(f"Sinal DTMF para o dígito '{digit}'")
 plt.xlabel("Amostras")
 plt.ylabel("Amplitude")
 plt.show()
+
+#%%
+def plot_fft(signal, sample_rate):
+    N = len(signal)
+    yf = fft(signal)
+    xf = fftfreq(N, 1 / sample_rate)
+    
+    # Apenas frequências positivas
+    idxs = np.where(xf > 0)
+    xf = xf[idxs]
+    yf = np.abs(yf[idxs])
+
+    plt.plot(xf, yf)
+    plt.title("Espectro de Frequências do Sinal DTMF")
+    plt.xlabel("Frequência (Hz)")
+    plt.ylabel("Amplitude")
+    plt.show()
+    
+plot_fft(tone, sample_rate)
+
+#%%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
