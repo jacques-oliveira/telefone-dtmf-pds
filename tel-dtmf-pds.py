@@ -32,20 +32,27 @@ def gerar_tom_dtmf(digit, duration=0.5, sample_rate=8000):
     return tone
 
 # Gerando o sinal para o dígito '5'
-sample_rate = 8000
-digit = '5'
-tone = gerar_tom_dtmf(digit, duration=0.5, sample_rate=sample_rate)
+digitoTest = '5'
+tone = gerar_tom_dtmf(digitoTest)
 
+#%%
 # Salvando o tom como um arquivo de áudio
-write("dtmf_5.wav", sample_rate, tone.astype(np.float32))
+def salvar_tom_audio(digito):
+    nomeArquivo = "dtmf_" + str(digito) +".wav"
+    write(nomeArquivo, 8000,tone.astype(np.float32))
 
+salvar_tom_audio(digitoTest)
+
+#%%
 # Plotando o sinal
-plt.plot(tone[:1000])  # Mostrar apenas uma parte do sinal para visualização
-plt.title(f"Sinal DTMF para o dígito '{digit}'")
-plt.xlabel("Amostras")
-plt.ylabel("Amplitude")
-plt.show()
+def plot_sinal(digito,partSinal=1000):
+    plt.plot(tone[:partSinal])  # Mostrar apenas uma parte do sinal para visualização
+    plt.title(f"Sinal DTMF para o dígito '{digito}'")
+    plt.xlabel("Amostras")
+    plt.ylabel("Amplitude")
+    plt.show()
 
+plot_sinal(digitoTest)
 #%%
 #Função para plotar as frequências atráves da fft
 def plot_fft(signal, sample_rate):
@@ -93,5 +100,9 @@ def detecta_digito_dtmf(signal, sample_rate):
 detected_digit = detecta_digito_dtmf(tone, sample_rate)
 print(f"Dígito detectado: {detected_digit}")
 
+#%%
+#Testando o código para uma sequência de números digitados
+listaNumerosDigitados = [2,5,7,0,8]
 
-
+#for(n in listaNumerosDigitados):
+    
