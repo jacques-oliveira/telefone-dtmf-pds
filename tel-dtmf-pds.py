@@ -20,7 +20,7 @@ dtmf_freqs = {
     '0': (941, 1336),
     '#': (941, 1477)
 }
-
+#%%
 # Função para gerar o sinal DTMF de um dígito
 #que usa o conceito de superposição
 def gerar_tom_dtmf(digit, duration=0.5, sample_rate=8000):
@@ -32,16 +32,16 @@ def gerar_tom_dtmf(digit, duration=0.5, sample_rate=8000):
     return tone
 
 # Gerando o sinal para o dígito '5'
-digitoTest = '5'
+digitoTest = '1'
 tone = gerar_tom_dtmf(digitoTest)
 
 #%%
 # Salvando o tom como um arquivo de áudio
-def salvar_tom_audio(digito):
+def salvar_tom_audio(digito,ton):
     nomeArquivo = "dtmf_" + str(digito) +".wav"
-    write(nomeArquivo, 8000,tone.astype(np.float32))
+    write(nomeArquivo, 8000,ton.astype(np.float32))
 
-salvar_tom_audio(digitoTest)
+salvar_tom_audio(digitoTest,tone)
 
 #%%
 # Plotando o sinal
@@ -55,7 +55,7 @@ def plot_sinal(digito,partSinal=1000):
 plot_sinal(digitoTest)
 #%%
 #Função para plotar as frequências atráves da fft
-def plot_fft(signal, sample_rate):
+def plot_fft(signal, sample_rate=8000):
     N = len(signal)
     yf = fft(signal)
     xf = fftfreq(N, 1 / sample_rate)
@@ -72,10 +72,10 @@ def plot_fft(signal, sample_rate):
     plt.show()
 
 #Plotando as frequências encontradas    
-plot_fft(tone, sample_rate)
+plot_fft(tone)
 
 #%%
-def detecta_digito_dtmf(signal, sample_rate):
+def detecta_digito_dtmf(signal, sample_rate=8000):
     N = len(signal)
     yf = fft(signal)
     xf = fftfreq(N, 1 / sample_rate)
@@ -97,12 +97,17 @@ def detecta_digito_dtmf(signal, sample_rate):
     return None
 
 # Testando a detecção do dígito
-detected_digit = detecta_digito_dtmf(tone, sample_rate)
+detected_digit = detecta_digito_dtmf(tone)
 print(f"Dígito detectado: {detected_digit}")
 
 #%%
 #Testando o código para uma sequência de números digitados
-listaNumerosDigitados = [2,5,7,0,8]
+listaDigitados = ['2','5','7','0','8']
 
-#for(n in listaNumerosDigitados):
-    
+for dig in listaDigitados:
+    ton = gerar_tom_dtmf(dig)
+    salvar_tom_audio(dig,ton)
+    plot_sinal(dig)
+    plot_fft(ton)
+    digitoDetectado = detecta_digito_dtmf(ton)
+    print(f"Digito detectado foi: {digitoDetectado}")
