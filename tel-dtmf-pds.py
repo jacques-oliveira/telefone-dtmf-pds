@@ -102,7 +102,7 @@ print(f"Dígito detectado: {detected_digit}")
 
 #%%
 #Testando o código para uma sequência de números digitados
-listaDigitados = ['2','5','7','0','8']
+listaDigitados = ['2','5','7','0','8','#']
 
 for dig in listaDigitados:
     ton = gerar_tom_dtmf(dig)
